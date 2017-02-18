@@ -1,0 +1,10 @@
+---
+esx_hostname: esxi_hostname
+esx_ipaddr: your_esxi_ipaddr
+esx_user: root
+esx_password: your_esxi_password
+datastore_name: datastore1
+iso_path: datastore1/CentOS-6.8-i386-LiveCD.iso
+os_id: centos6Guest
+
+

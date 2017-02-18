@@ -1,0 +1,47 @@
+---
+- hosts: localhost
+  connection: local
+  user: root
+  sudo: false
+  gather_facts: false
+  serial: 1
+  tasks:
+    - name: Deploy guest
+      vsphere_guest:
+        vcenter_hostname: "{{ esx_ipaddr }}"
+        username: "{{ esx_user }}"
+        password: "{{ esx_password }}"
+        guest: "{{ item }}"
+        state: powered_on
+        vm_hw_version: vmx-13
+        vm_extra_config:
+          vcpu.hotadd: yes
+          mem.hotadd:  yes
+          notes: This is a test VM
+        vm_disk:
+          disk1:
+            size_gb: 10
+            type: thin
+            datastore: "{{ datastore_name }}"
+        vm_nic:
+          nic1:
+            type: vmxnet3
+            network: VM Network
+            network_type: standard
+        vm_hardware:
+          memory_mb: 512
+          num_cpus: 1
+          osid: "{{ os_id }}"
+          scsi: paravirtual
+          vm_cdrom:
+            type: "iso"
+            iso_path: "{{ iso_path }}"
+        esxi:
+          datacenter: ha-datacenter
+          hostname: "{{ esx_hostname  }}"
+      with_items:
+        - centos6-01
+        - centos6-02
+        - centos6-03
+        - centos6-04
+        - centos6-05
